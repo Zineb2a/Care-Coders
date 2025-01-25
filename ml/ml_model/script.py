@@ -78,6 +78,20 @@ def create_pipeline():
     ])
     return pipeline
 
+# Evaluate model
+def evaluate_model(y_true, y_pred, dataset_name="Test Set"):
+    """Print and log evaluation metrics."""
+    mae = mean_absolute_error(y_true, y_pred)
+    mse = mean_squared_error(y_true, y_pred)
+    rmse = np.sqrt(mse)
+    r2 = r2_score(y_true, y_pred)
+
+    logging.info(f"Performance on {dataset_name}:")
+    logging.info(f"  Mean Absolute Error (MAE): {mae:.2f}")
+    logging.info(f"  Mean Squared Error (MSE): {mse:.2f}")
+    logging.info(f"  Root Mean Squared Error (RMSE): {rmse:.2f}")
+    logging.info(f"  R-Squared (R²): {r2:.2f}")
+
 # Train model
 def train_model(df):
     """Train the RandomForest model and log its performance."""
@@ -92,6 +106,7 @@ def train_model(df):
 
     pipeline = create_pipeline()
 
+    # Hyperparameter tuning
     param_grid = {
         "model__n_estimators": [100, 200],
         "model__max_depth": [10, 20, None],
@@ -105,13 +120,13 @@ def train_model(df):
     best_model = grid_search.best_estimator_
     logging.info(f"Best Parameters: {grid_search.best_params_}")
 
-    # Evaluate on the test set
-    y_pred = best_model.predict(X_test)
-    mae = mean_absolute_error(y_test, y_pred)
-    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-    r2 = r2_score(y_test, y_pred)
+    # Evaluate on training set
+    y_train_pred = best_model.predict(X_train)
+    evaluate_model(y_train, y_train_pred, dataset_name="Training Set")
 
-    logging.info(f"Model Performance on Test Set: MAE={mae:.2f}, RMSE={rmse:.2f}, R²={r2:.2f}")
+    # Evaluate on test set
+    y_test_pred = best_model.predict(X_test)
+    evaluate_model(y_test, y_test_pred, dataset_name="Test Set")
 
     # Save the model
     dump(best_model, "model_pipeline.joblib")
