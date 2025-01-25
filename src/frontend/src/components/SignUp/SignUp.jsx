@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import SignUpPage from '../SignUp/SignUp';
-import './LogIn.css';
+import './SignUp.css';
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,19 +12,18 @@ const LoginPage = () => {
     e.preventDefault(); 
     console.log('Email:', email, 'Password:', password);
   };
-
-  const goToSignUp = () => {
-    navigate('/signup');
+  const goToLogIn = () => {
+    navigate('/login');
   };
 
   return (
     <div className="login-page">
       <div className="left-side">
-        <img src="./src/assets/img.gif" alt="CareAccess Logo"/>
+        <img src="./src/assets/love.gif" alt="CareAccess Logo"/>
       </div>
       <div className="right-side">
         <div className="login-container">
-          <h2 className="heading">Login Page</h2>
+          <h2 className="heading">SignUp Page</h2>
           
           <form onSubmit={handleSubmit}> 
             <input 
@@ -47,8 +45,8 @@ const LoginPage = () => {
             <button type="submit" className="login-button">Login</button>
           </form>
           
-          <a href="/signup" className="forgot-password" onClick={goToSignUp}>
-            Don't have an account? Sign up
+          <a href="/login" className="forgot-password" onClick={goToLogIn}>
+            Already have an account? Log In
           </a>
         </div>
       </div>
@@ -56,4 +54,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
