@@ -8,7 +8,7 @@ import Sidebar from './assets/Sidebar.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Sidebar />
-    {/* < EmergencyLandingPage /> */}
+    < EmergencyLandingPage /> 
     
   </StrictMode>,
 )
