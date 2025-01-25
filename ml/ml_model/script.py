@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, median_absolute_error
 from joblib import dump
 
 # Configure logging
@@ -21,9 +21,20 @@ def load_data(file_path):
 # Preprocess data
 def preprocess_data(df):
     """Preprocess the data for training."""
-    df = df.dropna()
+    df = df.dropna()  # Remove missing values
+
+    # Filter out invalid or extreme values
     df = df[(df["time_elapsed"] >= 0) & (df["avg_wait_time"] >= 0)]
+
+    # Create new features
     df["elapsed_ratio"] = df["time_elapsed"] / (df["avg_wait_time"] + 1e-5)
+    df["workload_per_patient"] = df["workload"] / (df["queue_position"] + 1)
+    df["queue_density"] = df["queue_position"] / (df["avg_wait_time"] + 1e-5)
+
+    # Log-transform skewed features
+    df["log_avg_wait_time"] = np.log1p(df["avg_wait_time"])
+    df["log_workload"] = np.log1p(df["workload"])
+
     return df
 
 # Visualize the data
@@ -59,7 +70,11 @@ def visualize_data(df):
 # Create pipeline
 def create_pipeline():
     """Create a pipeline with preprocessing and a RandomForestRegressor."""
-    numeric_features = ["queue_position", "time_elapsed", "avg_wait_time", "workload", "elapsed_ratio"]
+    numeric_features = [
+        "queue_position", "time_elapsed", "avg_wait_time", "workload", 
+        "elapsed_ratio", "workload_per_patient", "queue_density", 
+        "log_avg_wait_time", "log_workload"
+    ]
     categorical_features = ["triage_category"]
 
     numeric_transformer = Pipeline(steps=[("scaler", StandardScaler())])
@@ -85,9 +100,11 @@ def evaluate_model(y_true, y_pred, dataset_name="Test Set"):
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse)
     r2 = r2_score(y_true, y_pred)
+    median_ae = median_absolute_error(y_true, y_pred)
 
     logging.info(f"Performance on {dataset_name}:")
     logging.info(f"  Mean Absolute Error (MAE): {mae:.2f}")
+    logging.info(f"  Median Absolute Error (Median AE): {median_ae:.2f}")
     logging.info(f"  Mean Squared Error (MSE): {mse:.2f}")
     logging.info(f"  Root Mean Squared Error (RMSE): {rmse:.2f}")
     logging.info(f"  R-Squared (R²): {r2:.2f}")
@@ -108,12 +125,13 @@ def train_model(df):
 
     # Hyperparameter tuning
     param_grid = {
-        "model__n_estimators": [100, 200],
-        "model__max_depth": [10, 20, None],
-        "model__min_samples_split": [2, 5, 10]
+        "model__n_estimators": [100, 200, 300],
+        "model__max_depth": [10, 20, 30, None],
+        "model__min_samples_split": [2, 5, 10],
+        "model__min_samples_leaf": [1, 2, 4]
     }
 
-    grid_search = GridSearchCV(pipeline, param_grid, cv=3, scoring="neg_mean_absolute_error", n_jobs=-1)
+    grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring="neg_mean_absolute_error", n_jobs=-1)
     grid_search.fit(X_train, y_train)
 
     # Best model
