@@ -1,31 +1,22 @@
 const apiRoute="/api";
 const mongoose=require("mongoose");
 const crypto = require('crypto');
-const bcrypt = require("bcrypt");
 const { Post, User } = require("./models");
-require('dotenv').config();
-
-//authentication using Auth 0
 const { auth } = require('express-openid-connect');
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: '39b60638dc691eca041dde485efcec76f157beca5178c4f7d3995ba5b638ba2e',
-  baseURL: 'http://localhost:3000',
-  clientID: 'dvjGf2OKJVIyBbe1CzfEd49Mv5w6qvAe',
-  issuerBaseURL: 'https://dev-e7kgps1tdzn1v0hl.us.auth0.com'
-};
 
 
 
 
 function loadApi (app){
+
     // req.isAuthenticated is provided from the auth router
     app.get('/', (req, res) => {
         res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+        
     });
 
+    
     //login handle
     app.post(apiRoute + '/login', async (req, res) => {
         console.log("POST /login")
@@ -45,7 +36,7 @@ function loadApi (app){
             res.status(403); 
             return res.send("Invalid username or password")
         }
-        const match = await bcrypt.compare(password, user.password)
+        const match = await compare(password, user.password)
         if (!match) {
             res.status(403); 
             return res.send("Invalid username or password")
@@ -95,10 +86,10 @@ function loadApi (app){
         
         // Register the user on the db
         try {
-            const hash = await bcrypt.hash(password, saltRounds)
+
             const newUser = new User({
                 username: username,
-                password: hash
+                password: password
             });
             await newUser.save()
             
