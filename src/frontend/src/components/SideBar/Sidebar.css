@@ -1,0 +1,58 @@
+/* Sidebar.css */
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.sidebar-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-title {
+  font-size: 26px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-link:hover {
+  background-color: #f8f8f8;
+  color: #336699;
+}
+
+.menu-icon {
+  font-size: 24px;
+  margin-right: 12px;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.menu-link:hover .menu-icon {
+  color: #336699;
+}
