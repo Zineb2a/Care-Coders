@@ -14,23 +14,27 @@ const LogIn = () => {
     setError(null);
 
     try {
-      // Fetch patient-specific data
-      const patientResponse = await fetch(
-        `https://ifem-award-mchacks-2025.onrender.com/api/v1/patient/${patientId}`
+      // Step 1: Fetch the queue
+      const queueResponse = await fetch(
+        "https://ifem-award-mchacks-2025.onrender.com/api/v1/queue"
       );
-      if (!patientResponse.ok) throw new Error("Invalid Patient ID");
-      const patientData = await patientResponse.json();
+      if (!queueResponse.ok) throw new Error("Failed to fetch the queue");
+      const queueData = await queueResponse.json();
 
-      // Fetch general statistics
-      const statsResponse = await fetch(
-        "https://ifem-award-mchacks-2025.onrender.com/api/v1/stats/current"
+      // Step 2: Check if the patient ID is in the queue
+      const patientInQueue = queueData.patients.find(
+        (patient) => patient.id === patientId
       );
-      if (!statsResponse.ok) throw new Error("Failed to fetch general stats");
-      const generalStats = await statsResponse.json();
+      if (!patientInQueue) {
+        throw new Error("Patient ID not found in the queue.");
+      }
 
-      // Navigate to the dashboard and pass the data via state
-      navigate("/dashboard", { state: { generalStats, patientData } });
+      // Step 3: Save the patient ID in local storage
+      localStorage.setItem("patientId", patientId);
+      console.log("Patient ID saved to local storage:", patientId);
 
+      // Step 4: Navigate to the dashboard or landing page
+      navigate("/EmergencyLandingPage");
     } catch (err) {
       console.error(err.message);
       setError(err.message);

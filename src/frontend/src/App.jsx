@@ -1,20 +1,65 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AppProvider } from "./context/AppContext";
 import LogIn from "./components/LogIn/LogIn";
 import Dashboard from "./components/Dashboard/dashboard";
-import "./App.css";
+import EmergencyLandingPage from "./components/Landing/EmergencyLandingPage";
+import Mini from "./games/minesweeper/Mini/Mini";
+import Chatbot from "./components/Chatbot/Chatbot";
+import Sidebar from "./components/SideBar/SideBar"; 
 
-function App() {
+// Layout Component for Pages with Sidebar
+const Layout = ({ children }) => (
+  <div className="layout-container">
+    <Sidebar />
+    <div className="main-content">{children}</div>
+  </div>
+);
+
+const App = () => {
   return (
-    <BrowserRouter>
-      <div className="app-container">
+    <AppProvider>
+      <BrowserRouter>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<LogIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* Protected Routes with Sidebar */}
+          <Route
+            path="/EmergencyLandingPage"
+            element={
+              <Layout>
+                <EmergencyLandingPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Layout>
+                <Dashboard />
+              </Layout>
+            }
+          />
+          <Route
+            path="/games"
+            element={
+              <Layout>
+                <Mini />
+              </Layout>
+            }
+          />
+          <Route
+            path="/Chatbot"
+            element={
+              <Layout>
+                <Chatbot />
+              </Layout>
+            }
+          />
         </Routes>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AppProvider>
   );
-}
+};
 
 export default App;

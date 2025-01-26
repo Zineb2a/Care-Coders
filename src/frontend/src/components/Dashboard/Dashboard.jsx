@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import {
   FaUserMd,
   FaClock,
@@ -20,20 +19,75 @@ import {
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const location = useLocation();
-  const { generalStats, patientData } = location.state || {};
+  const [patientId, setPatientId] = useState(localStorage.getItem("patientId"));
+  const [generalStats, setGeneralStats] = useState(null);
+  const [patientData, setPatientData] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Handle missing data
+  // Function to fetch data
+  const fetchData = async () => {
+    try {
+      if (!patientId) {
+        throw new Error("Patient ID is missing. Please log in again.");
+      }
+
+      // Fetch general statistics
+      const statsResponse = await fetch(
+        "https://ifem-award-mchacks-2025.onrender.com/api/v1/stats/current"
+      );
+      if (!statsResponse.ok) {
+        throw new Error("Failed to fetch general statistics.");
+      }
+      const statsData = await statsResponse.json();
+      setGeneralStats(statsData);
+
+      // Fetch patient-specific data
+      const patientResponse = await fetch(
+        `https://ifem-award-mchacks-2025.onrender.com/api/v1/patient/${patientId}`
+      );
+      if (!patientResponse.ok) {
+        throw new Error("Failed to fetch patient data.");
+      }
+      const patientData = await patientResponse.json();
+      setPatientData(patientData);
+    } catch (err) {
+      console.error("Error fetching data:", err.message);
+      setError(err.message);
+    }
+  };
+
+  // useEffect with interval
+  useEffect(() => {
+    // Fetch data immediately on mount
+    fetchData();
+
+    // Set up interval to fetch data every 1 minute (60000ms)
+    const intervalId = setInterval(fetchData, 60000);
+
+    // Clean up the interval on unmount
+    return () => clearInterval(intervalId);
+  }, [patientId]);
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
   if (!generalStats || !patientData) {
     return <p className="loading-message">Loading data...</p>;
   }
 
-  // Initial time elapsed
-  const [timeElapsed, setTimeElapsed] = useState(
-    patientData?.time_elapsed || 0
-  );
+  const { averageWaitTimes, categoryBreakdown } = generalStats;
+  const { status, triage_category, queue_position, time_elapsed } = patientData;
 
-  // Triage category details
+  const formatTime = (minutes) => ({
+    hours: Math.floor(minutes / 60),
+    minutes: minutes % 60,
+  });
+
+  const avgWaitTime = averageWaitTimes[triage_category] || 0;
+  const avgWaitTimeFormatted = formatTime(avgWaitTime);
+  const timeElapsedFormatted = formatTime(time_elapsed);
+
   const triageCategoryInfo = {
     1: {
       color: "#A3D5FF",
@@ -67,34 +121,7 @@ const Dashboard = () => {
     },
   };
 
-  // Extract data
-  const { averageWaitTimes, categoryBreakdown } = generalStats;
-  const { status, triage_category, queue_position } = patientData;
-  const avgWaitTime = averageWaitTimes[triage_category];
-
-  // Format time in hours and minutes
-  const formatTime = (minutes) => ({
-    hours: Math.floor(minutes / 60),
-    minutes: minutes % 60,
-  });
-
-  const avgWaitTimeFormatted = formatTime(avgWaitTime);
-  const timeElapsedFormatted = formatTime(timeElapsed);
-
-  // Update elapsed time every minute
-  useEffect(() => {
-    if (status.current_phase !== "discharged") {
-      const timer = setInterval(() => {
-        setTimeElapsed((prev) => prev + 1);
-      }, 60000);
-
-      return () => clearInterval(timer);
-    }
-  }, [status.current_phase]);
-
-  // Define status color based on wait time
-  const statusColor =
-    avgWaitTime > 120 ? "#dc3545" : avgWaitTime > 60 ? "#ffc107" : "#28a745";
+  const triageInfo = triageCategoryInfo[triage_category];
 
   // Triage category breakdown for the chart
   const triageCategoryData = Object.entries(categoryBreakdown).map(
@@ -105,56 +132,45 @@ const Dashboard = () => {
     })
   );
 
-  const triageInfo = triageCategoryInfo[triage_category];
-
   return (
     <div className="dashboard">
-      {/* Dashboard Title */}
       <h1 className="dashboard-title">Emergency Room Dashboard</h1>
-
-      {/* Main Content Grid */}
       <div className="grid-container">
-        {/* Card: Average Wait Time */}
+        {/* Average Wait Time */}
         <Card
           icon={<FaUserMd />}
           title="Average Wait Time"
           value={`${avgWaitTimeFormatted.hours} hr ${avgWaitTimeFormatted.minutes} min`}
         />
-
-        {/* Card: Time Elapsed */}
+        {/* Time Elapsed */}
         <Card
           icon={<FaClock />}
           title="Time Elapsed"
           value={`${timeElapsedFormatted.hours} hr ${timeElapsedFormatted.minutes} min`}
         />
-
-        {/* Card: Current Phase */}
+        {/* Current Phase */}
         <Card
           icon={<FaSignal />}
           title="Your Current Phase"
           value={status.current_phase}
-          valueStyle={{ color: statusColor }}
         />
-
-        {/* Card: Queue Position */}
+        {/* Queue Position */}
         <Card
           icon={<FaSignal />}
           title="Queue Position"
           value={queue_position?.global || "N/A"}
         />
-
-        {/* Card: Triage Category */}
+        {/* Triage Category */}
         <TriageCard
-          icon={triageInfo?.icon}
+          icon={triageInfo.icon}
           title="Your Triage Category"
-          value={triageInfo?.name || "Unknown"}
-          color={triageInfo?.color}
-          message={triageInfo?.message}
+          value={triageInfo.name}
+          color={triageInfo.color}
+          message={triageInfo.message}
         />
-
-        {/* Large Card: Triage Categories Bar Chart */}
+        {/* Triage Categories Chart */}
         <div className="card large-card">
-          <h3 className="card-title"></h3>
+          <h3 className="card-title">Triage Categories</h3>
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={triageCategoryData}>
@@ -177,13 +193,11 @@ const Dashboard = () => {
 };
 
 // Reusable Card Component
-const Card = ({ icon, title, value, valueStyle }) => (
+const Card = ({ icon, title, value }) => (
   <div className="card">
     <div className="card-icon">{icon}</div>
     <h3 className="card-title">{title}</h3>
-    <p className="card-value" style={valueStyle}>
-      {value}
-    </p>
+    <p className="card-value">{value}</p>
   </div>
 );
 
