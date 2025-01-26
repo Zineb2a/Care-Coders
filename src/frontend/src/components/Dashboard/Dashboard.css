@@ -70,6 +70,7 @@
 }
 
 .card-icon {
+    font-family: 'Material Icons';
     font-size: 48px;
     color: #336699;
     margin-bottom: 10px;
@@ -78,14 +79,14 @@
 .card-title {
     font-size: clamp(16px, 2vw, 20px);
     font-weight: bold;
-    color: #336699;
+    color: #74879a;
     margin-bottom: 10px;
 }
 
 .card-value {
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: bold;
-    color: #336699;
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: bold ;
+    color: #000000; /* Change color to distinguish from titles */
 }
 
 /* Large Card (Bar Chart Container) */
@@ -123,6 +124,7 @@
 }
 
 .triage-icon {
+    font-family: 'Material Icons';
     font-size: 48px;
     color: #336699;
     margin-bottom: 10px;
@@ -130,7 +132,7 @@
 
 .triage-card .card-title {
     font-size: clamp(18px, 3vw, 22px);
-    color: #336699;
+    color: #74879a;
 }
 
 /* Responsive Adjustments */
