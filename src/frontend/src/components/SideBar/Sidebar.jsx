@@ -48,10 +48,11 @@ const Sidebar = () => {
         >
           <span className="material-icons">close</span>
         </button>
-
+        <Link to="/EmergencyLandingPage">
         <h2 className="menu-title">
           <img src={ERlogo} alt="ERlogo" className="logo" />
         </h2>
+        </Link>
         <nav className="menu-links">
           <Link to="/dashboard" className="menu-link">
             <span className="material-icons menu-icon">dashboard</span>
