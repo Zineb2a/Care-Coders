@@ -1,4 +1,4 @@
-#CareAcess
+#CareAccess
 
 CareAccess is a digital companion designed to improve the emergency room experience by providing real-time updates, emotional support, and a clear journey for patients. The app combines transparency with empathy to create a calmer and more informed waiting experience in an often stressful environment.
 
