@@ -16,15 +16,16 @@
 /* Sidebar and Dashboard Layout */
 .dashboard-layout {
     display: flex;
-    flex-wrap: wrap; /* Ensures content wraps on smaller screens */
+    flex-wrap: wrap;
 }
 
+/* Sidebar Container */
 .sidebar-container {
-    flex: 0 0 250px; /* Sidebar width */
+    flex: 0 0 250px;
     height: 100vh;
-    overflow-y: auto; /* Enables scrolling for sidebar content */
-    background-color: #ffffff; /* Add a background to distinguish the sidebar */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+    overflow-y: auto;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard {
@@ -39,7 +40,7 @@
     margin-bottom: 20px;
     color: #336699;
     text-align: center;
-    padding: 0 10px; /* Adds padding to prevent touching the screen edges */
+    padding: 0 10px;
     word-wrap: break-word;
 }
 
@@ -50,8 +51,8 @@
     gap: 20px;
     width: 100%;
     max-width: 1200px;
-    padding: 0 10px; /* Adds spacing on the sides for smaller screens */
-    box-sizing: border-box; /* Consistent spacing for all elements */
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 /* Card Styles */
@@ -62,6 +63,12 @@
     padding: 20px;
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -70,10 +77,11 @@
 }
 
 .card-icon {
-    font-family: 'Material Icons';
-    font-size: 48px;
+    font-size: 4vw; /* Responsive font size based on viewport */
+    max-width: 48px; /* Restrict max size */
     color: #336699;
     margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .card-title {
@@ -81,12 +89,16 @@
     font-weight: bold;
     color: #74879a;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .card-value {
     font-size: clamp(20px, 4vw, 36px);
     font-weight: bold;
-    color: #000000; /* Change color to distinguish from titles */
+    color: #000000;
+    text-align: center;
+    word-wrap: break-word;
+    max-width: 100%; /* Prevent overflow */
 }
 
 /* Large Card (Bar Chart Container) */
@@ -104,6 +116,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .chart-container {
@@ -120,12 +133,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 60px 0;
+    justify-content: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
 
 .triage-icon {
-    font-family: 'Material Icons';
-    font-size: 48px;
+    font-size: 4vw; /* Responsive font size */
+    max-width: 48px;
     color: #336699;
     margin-bottom: 10px;
 }
@@ -133,6 +148,7 @@
 .triage-card .card-title {
     font-size: clamp(18px, 3vw, 22px);
     color: #74879a;
+    text-align: center;
 }
 
 /* Responsive Adjustments */
@@ -152,12 +168,12 @@
     }
 
     .sidebar-container {
-        flex: 0 0 100%; /* Make sidebar stack on top for smaller devices */
-        height: auto; /* Allow auto height for wrapping content */
+        flex: 0 0 100%;
+        height: auto;
     }
 
     .grid-container {
-        grid-template-columns: 1fr; /* Stacks all cards vertically */
+        grid-template-columns: 1fr;
     }
 
     .large-card {
@@ -203,7 +219,7 @@
     .sidebar-container {
         flex: 0 0 100%;
         padding: 10px;
-        text-align: center; /* Center the sidebar content */
+        text-align: center;
     }
 }
 
@@ -214,11 +230,11 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark background for overlay */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Ensure it appears on top of everything */
+    z-index: 1000;
 }
 
 .popup {
@@ -245,7 +261,7 @@
 
 .popup button {
     padding: 10px 20px;
-    background-color: #1c5da6;
+    background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 5px;
@@ -254,5 +270,5 @@
 }
 
 .popup button:hover {
-    background-color: #093364;
+    background-color: #45a049;
 }
