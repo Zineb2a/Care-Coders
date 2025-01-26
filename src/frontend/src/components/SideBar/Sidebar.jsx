@@ -51,7 +51,7 @@ const Sidebar = () => {
             <span className="material-icons menu-icon">dashboard</span>
             Dashboard
           </Link>
-          <Link to="/calming-zone" className="menu-link">
+          <Link to="/buttons" className="menu-link">
             <span className="material-icons menu-icon">spa</span>
             Calming Zone
           </Link>

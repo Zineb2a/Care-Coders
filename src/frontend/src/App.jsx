@@ -7,6 +7,7 @@ import EmergencyLandingPage from "./components/Landing/EmergencyLandingPage";
 import Mini from "./games/minesweeper/Mini/Mini";
 import Chatbot from "./components/Chatbot/Chatbot";
 import Sidebar from "./components/SideBar/SideBar"; 
+import Buttons from "./components/Buttons/Buttons"; 
 
 // Layout Component for Pages with Sidebar
 const Layout = ({ children }) => (
@@ -45,6 +46,14 @@ const App = () => {
             element={
               <Layout>
                 <Mini />
+              </Layout>
+            }
+          />
+           <Route
+            path="/buttons"
+            element={
+              <Layout>
+                <Buttons />
               </Layout>
             }
           />

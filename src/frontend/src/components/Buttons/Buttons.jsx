@@ -16,7 +16,6 @@ import sound11 from './sounds/sound11.mp3';
 import sound12 from './sounds/sound12.mp3';
 
 const Buttons = () => {
-  // Sound data with imported files
   const sounds = [
     { name: 'Nature', file: sound1 },
     { name: 'Piano', file: sound2 },
@@ -36,20 +35,17 @@ const Buttons = () => {
   const [playing, setPlaying] = useState(null);
 
   const handleClick = (index) => {
-    // If another sound is playing, pause it
     if (audioRef.current && playing !== null && playing !== index) {
       audioRef.current.pause();
       setPlaying(null);
     }
 
-    // Create a new audio element for the selected sound
     if (playing !== index) {
       const audio = new Audio(sounds[index].file);
       audioRef.current = audio;
       audio.play();
       setPlaying(index);
     } else {
-      // Pause the current audio if the same button is clicked
       audioRef.current.pause();
       setPlaying(null);
     }
@@ -57,15 +53,18 @@ const Buttons = () => {
 
   return (
     <div className="ButtonsPage">
-      <div className="ButtonsCont">
+      <h1 className="page-title">Relaxation and Meditation</h1>
+      <div className="ButtonsGrid">
         {sounds.map((sound, index) => (
-          <button
-            className="button"
+          <div
+            className={`button-wrapper ${playing === index ? 'playing' : ''}`}
             key={index}
             onClick={() => handleClick(index)}
           >
-            {sound.name}
-          </button>
+            <div className="button">
+              <span className="button-text">{sound.name}</span>
+            </div>
+          </div>
         ))}
       </div>
     </div>

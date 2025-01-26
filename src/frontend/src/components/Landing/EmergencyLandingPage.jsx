@@ -1,41 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./EmergencyLandingPage.css";
-import Sidebar from "../SideBar/Sidebar.jsx";
-import ERlogo from "../../assets/ERlogotrans.png";
+import Sidebar from "../SideBar/SideBar";
 import hourglass from "../../assets/hourglass.gif";
 
 const EmergencyLandingPage = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [patientId, setPatientId] = useState(localStorage.getItem("patientId"));
+  const [queuePosition, setQueuePosition] = useState(null);
+  const [error, setError] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
+  const fetchPatientData = async () => {
+    try {
+      if (!patientId) {
+        throw new Error("Patient ID is missing. Please log in again.");
+      }
+
+      const response = await fetch(
+        `https://ifem-award-mchacks-2025.onrender.com/api/v1/patient/${patientId}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch patient data.");
+      }
+
+      const data = await response.json();
+      setQueuePosition(data.queue_position.global);
+    } catch (err) {
+      setError(err.message);
+    }
   };
+
+  useEffect(() => {
+    fetchPatientData();
+  }, [patientId]);
 
   return (
     <div className="app-container">
-      <header className="header">
-        <img src={ERlogo} alt="ERlogo" className="logo" />
-      </header>
       <main className="content">
         <div className="welcome-container">
           <div className="illustration">
             <img src={hourglass} alt="hourglass" />
           </div>
-          <h1 style={{ color: "#336699", fontSize: "2rem", fontWeight: "bold" }}>
-            Welcome to CareAccess!
-          </h1>
-          <p style={{ color: "#888888", fontSize: "1rem", textAlign: "center" }}>
-            Your Guide Through the Waiting Room
-          </p>
-          <p style={{ color: "#888888", fontSize: "1rem", textAlign: "center" }}>
-            Current Position: 3
-          </p>
-          <button onClick={toggleSidebar} className="event-info-button">
+          <h1 className="welcome-title">Welcome to CareAccess!</h1>
+          <p className="subtitle">Your Guide Through the Waiting Room</p>
+          {error ? (
+            <p className="error-message">{error}</p>
+          ) : queuePosition !== null ? (
+            <p className="queue-position">
+              Current Position: <span>{queuePosition}</span>
+            </p>
+          ) : (
+            <p className="loading-message">Loading your position...</p>
+          )}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="event-info-button"
+          >
             Explore Menu
           </button>
-          {sidebarVisible && <Sidebar currentPage="Welcome" />}
         </div>
       </main>
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
     </div>
   );
 };
