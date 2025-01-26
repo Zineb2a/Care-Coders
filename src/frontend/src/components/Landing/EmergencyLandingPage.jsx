@@ -7,7 +7,7 @@ const EmergencyLandingPage = () => {
   const [patientId, setPatientId] = useState(localStorage.getItem("patientId"));
   const [queuePosition, setQueuePosition] = useState(null);
   const [error, setError] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Control Sidebar state
 
   const fetchPatientData = async () => {
     try {
@@ -51,6 +51,7 @@ const EmergencyLandingPage = () => {
           ) : (
             <p className="loading-message">Loading your position...</p>
           )}
+          {/* Open Sidebar on Button Click */}
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="event-info-button"
@@ -59,6 +60,7 @@ const EmergencyLandingPage = () => {
           </button>
         </div>
       </main>
+      {/* Pass isSidebarOpen and setIsSidebarOpen to Sidebar */}
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
