@@ -26,19 +26,26 @@
 }
 
 .menu-title {
-    font-size: 20px;
-    margin-top:10px;
+    font-size: 15px;
+    margin-top:30px;
     color: #333;
+    font-size: 30px;
+    text-align: left;
     margin-bottom: 20px;
+    gap: 20px;
 }
 
 .menu-links {
+    font-size: 19px;
+    margin-top:30px;
     display: flex;
+    text-align: left;
     flex-direction: column;
 }
 
 .menu-link {
     color: #333;
+    margin-bottom: 300px;
     text-decoration: none;
     margin-bottom: 15px;
 }
