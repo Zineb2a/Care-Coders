@@ -46,9 +46,10 @@ const BreathingExercisePage = () => {
     <div className="breathing-container">
       {showDisclaimer && (
         <div className="disclaimer-popup">
-          <p className="disclaimer-text">
-            DISCLAIMER: Please consult your doctor or medical provider to ensure breathwork is suitable for you. Breathing exercises may present a risk of harm for people with certain medical and/or neurological conditions including epilepsy, cardiovascular issues, anxiety and PTSD, or people who are pregnant.
-          </p>
+        <p className="disclaimer-text">
+  DISCLAIMER: Consult your doctor before starting breathwork, especially if you have medical conditions like epilepsy, heart issues, anxiety, PTSD, or are pregnant.
+</p>
+
           <button
             className="disclaimer-button"
             onClick={() => setShowDisclaimer(false)}

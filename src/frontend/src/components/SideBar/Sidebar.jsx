@@ -61,6 +61,10 @@ const Sidebar = () => {
             <span className="material-icons menu-icon">spa</span>
             Calming Zone
           </Link>
+          <Link to="/breathing-exercise" className="menu-link">
+            <span className="material-icons menu-icon">self_improvement</span>
+            Breathing Exercise
+          </Link>
           <Link to="/games" className="menu-link">
             <span className="material-icons menu-icon">sports_esports</span>
             Games

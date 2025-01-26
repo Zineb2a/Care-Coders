@@ -11,6 +11,7 @@ import Mini from "./games/minesweeper/Mini/Mini.jsx";
 import Chatbot from "./components/Chatbot/Chatbot";
 import Sidebar from "./components/SideBar/SideBar.jsx";
 import FeedbackForm from "./components/Feedback/Feedback.jsx";
+import BreathingExercisePage from "./components/BreathingExercise/BreathingExercisePage";
 
 // Layout Component for Pages with Sidebar
 const Layout = ({ children }) => (
@@ -66,6 +67,14 @@ const App = () => {
             element={
               <Layout>
                 <Games />
+              </Layout>
+            }
+          />
+            <Route
+            path="/breathing-exercise"
+            element={
+              <Layout>
+                <BreathingExercisePage />
               </Layout>
             }
           />
