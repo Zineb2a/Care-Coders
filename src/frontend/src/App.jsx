@@ -1,19 +1,16 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LogIn from './components/LogIn/LogIn';
-import SignUpPage from './components/SignUp/SignUp';
-import EmergencyLandingPage from './components/Landing/EmergencyLandingPage.jsx';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LogIn from "./components/LogIn/LogIn";
+import Dashboard from "./components/Dashboard/dashboard";
+import "./App.css";
 
 function App() {
-  return (  
+  return (
     <BrowserRouter>
-      <div className='app-container'>
+      <div className="app-container">
         <Routes>
           <Route path="/" element={<LogIn />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/landing" element={<EmergencyLandingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </BrowserRouter>
@@ -21,5 +18,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -5,28 +5,32 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    align-items: center;
+    justify-content: flex-start;
     text-align: center;
     color: #343a40;
-    padding: 20px; /* Prevent overflow on mobile */
+    padding: 20px;
     box-sizing: border-box;
   }
   
   .dashboard-title {
-    font-size: 28px;
+    font-size: clamp(20px, 5vw, 32px);
     font-weight: bold;
     margin-bottom: 20px;
     color: #336699;
+    text-align: center;
+    padding: 0 10px; /* Adds padding to prevent touching the screen edges */
+    word-wrap: break-word;
   }
   
   /* Grid Layout */
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     width: 100%;
     max-width: 1200px;
+    padding: 0 10px; /* Adds spacing on the sides for smaller screens */
   }
   
   /* Card Styles */
@@ -51,21 +55,16 @@
   }
   
   .card-title {
-    font-size: 20px;
+    font-size: clamp(16px, 2vw, 20px);
     font-weight: bold;
     color: #495057;
     margin-bottom: 10px;
   }
   
   .card-value {
-    font-size: 36px;
+    font-size: clamp(24px, 4vw, 36px);
     font-weight: bold;
     color: #336699;
-  }
-  
-  .card-unit {
-    font-size: 14px;
-    color: #6c757d;
   }
   
   .card-status {
@@ -74,49 +73,78 @@
     margin-top: 10px;
   }
   
-
+  .card-message {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 5px;
+    line-height: 1.5;
+  }
   
+  /* Large Card (Bar Chart Container) */
   .large-card {
     grid-column: span 2;
     width: 100%;
-    max-width: 800px; /* Adjust max width for a nice layout */
+    max-width: 800px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    align-items: center;
+    justify-content: center;
     padding: 20px;
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .large-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.01);
   }
   
   .chart-container {
     width: 100%;
     max-width: 600px;
     height: 300px;
-    display: flex; /* Enable Flexbox */
-    align-items: center; /* Vertically center */
-    justify-content: center; /* Horizontally center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
+  /* Triage-Specific Card */
+  .triage-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .triage-icon {
+    font-size: 48px;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+  
+  .triage-card .card-title {
+    font-size: clamp(18px, 3vw, 22px);
+    color: #343a40;
+  }
   
   /* Responsive Adjustments */
   @media (max-width: 768px) {
     .grid-container {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; /* Stacks all cards vertically */
     }
   
     .large-card {
       grid-column: span 1;
     }
   
+    .chart-container {
+      max-width: 100%;
+      height: 250px;
+    }
+  
+    .dashboard-title {
+      font-size: 24px; /* Slightly smaller title for tablets */
+    }
+  }
+  
+  @media (max-width: 480px) {
     .card {
       padding: 15px;
     }
@@ -126,11 +154,21 @@
     }
   
     .card-value {
-      font-size: 28px;
+      font-size: 20px;
     }
   
     .card-icon {
-      font-size: 36px;
+      font-size: 32px;
+    }
+  
+    .dashboard-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+      padding: 0 15px;
+    }
+  
+    .chart-container {
+      height: 200px;
     }
   }
   

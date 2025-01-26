@@ -1,71 +1,158 @@
-import React from "react";
-import { FaUserMd, FaClock, FaSignal } from "react-icons/fa";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Cell } from "recharts";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import {
+  FaUserMd,
+  FaClock,
+  FaSignal,
+  FaHeartbeat,
+  FaProcedures,
+} from "react-icons/fa";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
 import "./Dashboard.css";
 
-const Dashboard = ({ generalStats, patientData }) => {
+const Dashboard = () => {
+  const location = useLocation();
+  const { generalStats, patientData } = location.state || {};
+
+  // Handle missing data
   if (!generalStats || !patientData) {
-    return <p className="loading-message">Loading data...</p>; // Display this if the required data is not passed
+    return <p className="loading-message">Loading data...</p>;
   }
 
-  // Extract data from props
-  const { averageWaitTimes, categoryBreakdown } = generalStats;
-  const { time_elapsed, status, triage_category, queue_position } = patientData;
+  // Initial time elapsed
+  const [timeElapsed, setTimeElapsed] = useState(
+    patientData?.time_elapsed || 0
+  );
 
-  // Determine the patient's average wait time
+  // Triage category details
+  const triageCategoryInfo = {
+    1: {
+      color: "#A3D5FF",
+      name: "RESUSCITATION (Blue)",
+      icon: <FaHeartbeat />,
+      message: "You are in the best hands for immediate care.",
+    },
+    2: {
+      color: "#FFB3B3",
+      name: "EMERGENT (Red)",
+      icon: <FaProcedures />,
+      message: "You are receiving rapid attention to your needs.",
+    },
+    3: {
+      color: "#FFE699",
+      name: "URGENT (Yellow)",
+      icon: <FaUserMd />,
+      message: "You are being cared for as quickly as possible.",
+    },
+    4: {
+      color: "#A8E6CF",
+      name: "LESS URGENT (Green)",
+      icon: <FaClock />,
+      message: "Your condition is less urgent but still important.",
+    },
+    5: {
+      color: "#E6E6E6",
+      name: "NON URGENT (White)",
+      icon: <FaSignal />,
+      message: "You will be attended to as soon as possible.",
+    },
+  };
+
+  // Extract data
+  const { averageWaitTimes, categoryBreakdown } = generalStats;
+  const { status, triage_category, queue_position } = patientData;
   const avgWaitTime = averageWaitTimes[triage_category];
 
-  // Determine status color based on average wait time
-  const statusColor = avgWaitTime > 120
-    ? "#dc3545" // Red for Critical
-    : avgWaitTime > 60
-    ? "#ffc107" // Yellow for Moderate
-    : "#28a745"; // Green for Stable
+  // Format time in hours and minutes
+  const formatTime = (minutes) => ({
+    hours: Math.floor(minutes / 60),
+    minutes: minutes % 60,
+  });
 
-  // Prepare data for the bar chart
-  const triageCategoryData = Object.entries(categoryBreakdown).map(([key, value]) => ({
-    name: `Category ${key}`,
-    total: value,
-    color: ["#A3D5FF", "#FFB3B3", "#FFE699", "#A8E6CF", "#E6E6E6"][key - 1], // Assign colors dynamically
-  }));
+  const avgWaitTimeFormatted = formatTime(avgWaitTime);
+  const timeElapsedFormatted = formatTime(timeElapsed);
+
+  // Update elapsed time every minute
+  useEffect(() => {
+    if (status.current_phase !== "discharged") {
+      const timer = setInterval(() => {
+        setTimeElapsed((prev) => prev + 1);
+      }, 60000);
+
+      return () => clearInterval(timer);
+    }
+  }, [status.current_phase]);
+
+  // Define status color based on wait time
+  const statusColor =
+    avgWaitTime > 120 ? "#dc3545" : avgWaitTime > 60 ? "#ffc107" : "#28a745";
+
+  // Triage category breakdown for the chart
+  const triageCategoryData = Object.entries(categoryBreakdown).map(
+    ([key, value]) => ({
+      name: `Category ${key}`,
+      total: value,
+      color: ["#A3D5FF", "#FFB3B3", "#FFE699", "#A8E6CF", "#E6E6E6"][key - 1],
+    })
+  );
+
+  const triageInfo = triageCategoryInfo[triage_category];
 
   return (
     <div className="dashboard">
+      {/* Dashboard Title */}
       <h1 className="dashboard-title">Emergency Room Dashboard</h1>
+
+      {/* Main Content Grid */}
       <div className="grid-container">
-        {/* Average Wait Time for Patient's Triage */}
-        <div className="card">
-          <FaUserMd className="card-icon" />
-          <h3 className="card-title">Your Average Wait Time</h3>
-          <p className="card-value">{avgWaitTime} Min</p>
-        </div>
+        {/* Card: Average Wait Time */}
+        <Card
+          icon={<FaUserMd />}
+          title="Your Average Wait Time"
+          value={`${avgWaitTimeFormatted.hours} hr ${avgWaitTimeFormatted.minutes} min`}
+        />
 
-        {/* Patient's Time Elapsed */}
-        <div className="card">
-          <FaClock className="card-icon" />
-          <h3 className="card-title">Time Elapsed</h3>
-          <p className="card-value">{time_elapsed} Min</p>
-        </div>
+        {/* Card: Time Elapsed */}
+        <Card
+          icon={<FaClock />}
+          title="Time Elapsed"
+          value={`${timeElapsedFormatted.hours} hr ${timeElapsedFormatted.minutes} min`}
+        />
 
-        {/* Patient's Current Phase */}
-        <div className="card">
-          <FaSignal className="card-icon" />
-          <h3 className="card-title">Your Current Phase</h3>
-          <p className="card-status" style={{ color: statusColor }}>
-            {status.current_phase}
-          </p>
-        </div>
+        {/* Card: Current Phase */}
+        <Card
+          icon={<FaSignal />}
+          title="Your Current Phase"
+          value={status.current_phase}
+          valueStyle={{ color: statusColor }}
+        />
 
-        {/* Patient's Queue Position */}
-        <div className="card">
-          <FaSignal className="card-icon" />
-          <h3 className="card-title">Queue Position</h3>
-          <p className="card-value">
-            Global: {queue_position.global}, Category: {queue_position.category}
-          </p>
-        </div>
+        {/* Card: Queue Position */}
+        <Card
+          icon={<FaSignal />}
+          title="Queue Position"
+          value={queue_position?.global || "N/A"}
+        />
 
-        {/* Triage Categories Bar Chart */}
+        {/* Card: Triage Category */}
+        <TriageCard
+          icon={triageInfo?.icon}
+          title="Your Triage Category"
+          value={triageInfo?.name || "Unknown"}
+          color={triageInfo?.color}
+          message={triageInfo?.message}
+        />
+
+        {/* Large Card: Triage Categories Bar Chart */}
         <div className="card large-card">
           <h3 className="card-title">Triage Category Overview</h3>
           <div className="chart-container">
@@ -88,5 +175,28 @@ const Dashboard = ({ generalStats, patientData }) => {
     </div>
   );
 };
+
+// Reusable Card Component
+const Card = ({ icon, title, value, valueStyle }) => (
+  <div className="card">
+    <div className="card-icon">{icon}</div>
+    <h3 className="card-title">{title}</h3>
+    <p className="card-value" style={valueStyle}>
+      {value}
+    </p>
+  </div>
+);
+
+// Specialized Triage Card Component
+const TriageCard = ({ icon, title, value, color, message }) => (
+  <div className="card triage-card">
+    <div className="triage-icon">{icon}</div>
+    <h3 className="card-title">{title}</h3>
+    <p className="card-value" style={{ color }}>
+      {value}
+    </p>
+    <p className="card-message">{message}</p>
+  </div>
+);
 
 export default Dashboard;
