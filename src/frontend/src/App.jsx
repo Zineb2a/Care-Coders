@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 import LogIn from "./components/LogIn/LogIn";
+import Buttons from "./components/Buttons/Buttons";
 import Dashboard from "./components/Dashboard/dashboard";
 import EmergencyLandingPage from "./components/Landing/EmergencyLandingPage";
 import Games from './games/games.jsx';
