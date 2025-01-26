@@ -57,6 +57,7 @@ const Buttons = () => {
 
   return (
     <div className="ButtonsPage">
+      <h1 className="header">For Calming Noises Click on the Buttons</h1> 
       <div className="ButtonsCont">
         {sounds.map((sound, index) => (
           <button

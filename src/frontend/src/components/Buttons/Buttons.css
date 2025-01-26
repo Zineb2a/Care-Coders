@@ -67,4 +67,13 @@ body {
   }
 }
 
+.header {
+  text-align: center;          
+  font-size: 36px;             
+  color: #7ec0ec;                
+  margin-top: 20px;            
+  margin-bottom: 30px;         
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 2px;         
+}
 
