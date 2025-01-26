@@ -51,12 +51,12 @@ const EmergencyLandingPage = () => {
           ) : (
             <p className="loading-message">Loading your position...</p>
           )}
-          <button
+          {/* <button
             onClick={() => setIsSidebarOpen(true)}
             className="event-info-button"
           >
             Explore Menu
-          </button>
+          </button> */}
         </div>
       </main>
       <Sidebar
