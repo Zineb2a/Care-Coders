@@ -117,7 +117,7 @@ const Dashboard = () => {
         {/* Card: Average Wait Time */}
         <Card
           icon={<FaUserMd />}
-          title="Your Average Wait Time"
+          title="Average Wait Time"
           value={`${avgWaitTimeFormatted.hours} hr ${avgWaitTimeFormatted.minutes} min`}
         />
 
@@ -154,7 +154,7 @@ const Dashboard = () => {
 
         {/* Large Card: Triage Categories Bar Chart */}
         <div className="card large-card">
-          <h3 className="card-title">Triage Category Overview</h3>
+          <h3 className="card-title"></h3>
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={triageCategoryData}>

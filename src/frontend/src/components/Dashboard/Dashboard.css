@@ -57,7 +57,7 @@
   .card-title {
     font-size: clamp(16px, 2vw, 20px);
     font-weight: bold;
-    color: #495057;
+    color: #336699;
     margin-bottom: 10px;
   }
   
@@ -82,7 +82,7 @@
   
   /* Large Card (Bar Chart Container) */
   .large-card {
-    grid-column: span 2;
+    grid-column: span 3;
     width: 100%;
     max-width: 800px;
     text-align: center;
@@ -95,33 +95,45 @@
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
-  
   .chart-container {
     width: 100%;
-    max-width: 600px;
-    height: 300px;
+    max-width: 100%; /* Ensures the container does not exceed the parent's width */
+    height: 100%; /* Adjusts height dynamically */
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    box-sizing: border-box; /* Considers padding and border in width calculations */
   }
+  
+  .large-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden; /* Prevents the content from overflowing */
+    box-sizing: border-box; /* Ensures consistent padding and size */
+  }
+  
   
   /* Triage-Specific Card */
   .triage-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
+    padding: 60px 0;
   }
   
   .triage-icon {
     font-size: 48px;
-    color: #495057;
+    color: #336699;
     margin-bottom: 10px;
   }
   
   .triage-card .card-title {
     font-size: clamp(18px, 3vw, 22px);
-    color: #343a40;
+    color: #336699;
   }
   
   /* Responsive Adjustments */
