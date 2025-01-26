@@ -18,11 +18,25 @@ import {
 } from "recharts";
 import "./Dashboard.css";
 
+const NotificationPopup = ({ message, onClose }) => {
+  return (
+    <div className="popup-overlay">
+      <div className="popup">
+        <h2>Notification</h2>
+        <p>{message}</p>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const [patientId, setPatientId] = useState(localStorage.getItem("patientId"));
   const [generalStats, setGeneralStats] = useState(null);
   const [patientData, setPatientData] = useState(null);
   const [error, setError] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notified, setNotified] = useState(false);
 
   // Function to fetch data
   const fetchData = async () => {
@@ -50,6 +64,12 @@ const Dashboard = () => {
       }
       const patientData = await patientResponse.json();
       setPatientData(patientData);
+
+      // Trigger notification based on current phase
+      if (patientData.status?.current_phase === "Doctor Consultation" && !notified) {
+        setShowNotification(true);
+        setNotified(true); // Ensure notification is only triggered once
+      }
     } catch (err) {
       console.error("Error fetching data:", err.message);
       setError(err.message);
@@ -58,15 +78,10 @@ const Dashboard = () => {
 
   // useEffect with interval
   useEffect(() => {
-    // Fetch data immediately on mount
-    fetchData();
-
-    // Set up interval to fetch data every 1 minute (60000ms)
-    const intervalId = setInterval(fetchData, 60000);
-
-    // Clean up the interval on unmount
-    return () => clearInterval(intervalId);
-  }, [patientId]);
+    fetchData(); // Fetch data on mount
+    const intervalId = setInterval(fetchData, 60000); // Fetch data every minute
+    return () => clearInterval(intervalId); // Clean up the interval
+  }, [patientId, notified]);
 
   if (error) {
     return <p className="error-message">{error}</p>;
@@ -134,33 +149,34 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+      {showNotification && (
+        <NotificationPopup
+          message="It's your turn to see the doctor! Please proceed to the assigned room."
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <h1 className="dashboard-title">Emergency Room Dashboard</h1>
       <div className="grid-container">
-        {/* Average Wait Time */}
         <Card
           icon={<FaUserMd />}
           title="Average Wait Time"
           value={`${avgWaitTimeFormatted.hours} hr ${avgWaitTimeFormatted.minutes} min`}
         />
-        {/* Time Elapsed */}
         <Card
           icon={<FaClock />}
           title="Time Elapsed"
           value={`${timeElapsedFormatted.hours} hr ${timeElapsedFormatted.minutes} min`}
         />
-        {/* Current Phase */}
         <Card
           icon={<FaSignal />}
           title="Your Current Phase"
           value={status.current_phase}
         />
-        {/* Queue Position */}
         <Card
           icon={<FaSignal />}
           title="Queue Position"
           value={queue_position?.global || "N/A"}
         />
-        {/* Triage Category */}
         <TriageCard
           icon={triageInfo.icon}
           title="Your Triage Category"
@@ -168,7 +184,6 @@ const Dashboard = () => {
           color={triageInfo.color}
           message={triageInfo.message}
         />
-        {/* Triage Categories Chart */}
         <div className="card large-card">
           <h3 className="card-title">Triage Categories</h3>
           <div className="chart-container">
@@ -192,7 +207,6 @@ const Dashboard = () => {
   );
 };
 
-// Reusable Card Component
 const Card = ({ icon, title, value }) => (
   <div className="card">
     <div className="card-icon">{icon}</div>
@@ -201,7 +215,6 @@ const Card = ({ icon, title, value }) => (
   </div>
 );
 
-// Specialized Triage Card Component
 const TriageCard = ({ icon, title, value, color, message }) => (
   <div className="card triage-card">
     <div className="triage-icon">{icon}</div>

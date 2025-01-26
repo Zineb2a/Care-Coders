@@ -85,7 +85,7 @@
 
 .card-value {
     font-size: clamp(20px, 4vw, 36px);
-    font-weight: bold ;
+    font-weight: bold;
     color: #000000; /* Change color to distinguish from titles */
 }
 
@@ -205,4 +205,54 @@
         padding: 10px;
         text-align: center; /* Center the sidebar content */
     }
+}
+
+/* Pop-Up Notification Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark background for overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it appears on top of everything */
+}
+
+.popup {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup h2 {
+    margin: 0 0 15px;
+    font-size: 24px;
+    color: #333;
+}
+
+.popup p {
+    margin: 10px 0 20px;
+    font-size: 18px;
+    color: #555;
+}
+
+.popup button {
+    padding: 10px 20px;
+    background-color: #1c5da6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #093364;
 }
