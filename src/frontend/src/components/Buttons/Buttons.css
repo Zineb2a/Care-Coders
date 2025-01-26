@@ -1,0 +1,70 @@
+/* General styles for the body */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #c2e1f6;
+}
+
+/* Style for each button */
+.button {
+  background-color: #a1d4f5;
+  color: white;
+  padding: 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 5%;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+  background-color: #7bb8e6; /* Darker blue on hover */
+}
+
+/* Container for the buttons */
+.ButtonsCont {
+  background-color: #c2e1f6;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Initially 4 columns */
+  gap: 5%;
+  padding: 5%;
+  justify-items: center; /* Centers the buttons horizontally */
+  align-items: center; /* Centers the buttons vertically */
+  min-height: 100vh; /* Ensures the container fills the viewport */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1024px) {
+  .ButtonsCont {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets */
+  }
+  .button {
+    padding: 40px; /* Slightly smaller buttons */
+  }
+}
+
+@media (max-width: 768px) {
+  .ButtonsCont {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+  .button {
+    padding: 30px; /* Smaller buttons */
+    font-size: 16px; /* Adjust font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .ButtonsCont {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+  .button {
+    padding: 25px; /* Smaller buttons */
+    font-size: 14px; /* Adjust font size */
+  }
+}
+
+
