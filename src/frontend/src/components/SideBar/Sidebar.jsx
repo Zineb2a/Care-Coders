@@ -6,15 +6,12 @@ import ERlogo from "../../assets/ERlogotrans.png";
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-  const burgerRef = useRef(null);
 
   // Close sidebar when clicking outside of it
   const handleClickOutside = (event) => {
     if (
       sidebarRef.current &&
-      !sidebarRef.current.contains(event.target) &&
-      burgerRef.current &&
-      !burgerRef.current.contains(event.target)
+      !sidebarRef.current.contains(event.target)
     ) {
       setIsSidebarOpen(false);
     }
@@ -30,19 +27,28 @@ const Sidebar = () => {
   return (
     <>
       {/* Burger Menu Button */}
-      <button
-        ref={burgerRef}
-        className="burger-menu"
-        onClick={() => setIsSidebarOpen((prev) => !prev)}
-      >
-        <span className="material-icons">menu</span>
-      </button>
+      {!isSidebarOpen && (
+        <button
+          className="burger-menu"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <span className="material-icons">menu</span>
+        </button>
+      )}
 
       {/* Sidebar */}
       <div
         className={`sidebar-container ${isSidebarOpen ? "open" : "closed"}`}
         ref={sidebarRef}
       >
+        {/* Close Button */}
+        <button
+          className="close-button"
+          onClick={() => setIsSidebarOpen(false)}
+        >
+          <span className="material-icons">close</span>
+        </button>
+
         <h2 className="menu-title">
           <img src={ERlogo} alt="ERlogo" className="logo" />
         </h2>

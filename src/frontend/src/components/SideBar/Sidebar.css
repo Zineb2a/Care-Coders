@@ -99,3 +99,67 @@
     width: 100%;
   }
 }
+
+
+/* Sidebar Container */
+.sidebar-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar-container.open {
+    transform: translateX(0);
+  }
+  
+  .sidebar-container.closed {
+    transform: translateX(-100%);
+  }
+  
+  /* Close Button */
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+  
+  .close-button:hover {
+    color: #ff5e57;
+  }
+  
+  /* Burger Menu */
+  .burger-menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .burger-menu .material-icons {
+    font-size: 24px;
+    color: #333;
+  }
+  
