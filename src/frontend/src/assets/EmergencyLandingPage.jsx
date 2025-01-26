@@ -26,9 +26,16 @@ const EmergencyLandingPage = () => {
           <div className="illustration">
             <img src={hourglass} alt="hourglass" />
           </div>
-          <h1>Welcome to CareAccess!</h1>
-          <p>Your Guide Through the Waiting Room</p>
-          <p>Current Position: 3</p> {/* to change with up-to-date data */}
+          <h1 style={{ color: "#336699", fontSize: "2rem", fontWeight: "bold" }}>
+  Welcome to CareAccess!
+</h1>
+
+<p style={{ color: "#888888", fontSize: "1rem", textAlign: "center" }}>
+  Your Guide Through the Waiting Room
+</p>
+<p style={{ color: "#888888", fontSize: "1rem", textAlign: "center" }}>
+  Current Position: 3
+</p>
           <button onClick={toggleSidebar} className="event-info-button">
             Explore Menu
           </button>
