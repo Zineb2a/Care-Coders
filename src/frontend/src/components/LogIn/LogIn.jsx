@@ -1,61 +1,65 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import SignUpPage from '../SignUp/SignUp';
-import './LogIn.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./LogIn.css";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [patientId, setPatientId] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handlePatientIdChange = (e) => setPatientId(e.target.value);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-    console.log('Email:', email, 'Password:', password);
-  };
-  
-  const handleLanding = () => {
-    navigate('/landing');
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
 
-  const goToSignUp = () => {
-    navigate('/signup');
+    try {
+      // Fetch patient-specific data
+      const patientResponse = await fetch(
+        `https://ifem-award-mchacks-2025.onrender.com/api/v1/patient/${patientId}`
+      );
+      if (!patientResponse.ok) throw new Error("Invalid Patient ID");
+      const patientData = await patientResponse.json();
+
+      // Fetch general statistics
+      const statsResponse = await fetch(
+        "https://ifem-award-mchacks-2025.onrender.com/api/v1/stats/current"
+      );
+      if (!statsResponse.ok) throw new Error("Failed to fetch general stats");
+      const generalStats = await statsResponse.json();
+
+      // Navigate to the dashboard and pass the data
+      navigate("/dashboard", { state: { generalStats, patientData } });
+    } catch (err) {
+      console.error(err.message);
+      setError(err.message);
+    }
   };
 
   return (
     <div className="login-page">
       <div className="left-side">
-        <img src="./src/assets/img.gif" alt="CareAccess Logo"/>
+        <img src="./src/assets/img.gif" alt="CareAccess Logo" />
       </div>
       <div className="right-side">
         <div className="login-container">
           <h2 className="heading">Login Page</h2>
-          
-          <form onSubmit={handleSubmit}> 
-            <input 
-              type="email" 
-              placeholder="Email" 
-              className="input" 
-              value={email} 
-              onChange={handleEmailChange} 
+
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter Patient ID"
+              className="input"
+              value={patientId}
+              onChange={handlePatientIdChange}
               required
             />
-            <input 
-              type="password" 
-              placeholder="Password" 
-              className="input" 
-              value={password} 
-              onChange={handlePasswordChange} 
-              required
-            />
-            <button type="submit" className="login-button" onClick={handleLanding}>Login</button>
+            <button type="submit" className="login-button">
+              Login
+            </button>
           </form>
-          
-          <a href="/signup" className="forgot-password" onClick={goToSignUp}>
-            Don't have an account? Sign up
-          </a>
+
+          {error && <p className="error-message">{error}</p>}
         </div>
       </div>
     </div>

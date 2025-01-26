@@ -9,7 +9,7 @@ import argparse
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # API base URL
-BASE_URL = "http://127.0.0.1:3000/api/v1"
+BASE_URL = "https://ifem-award-mchacks-2025.onrender.com/api/v1"
 
 # Asynchronous API fetcher
 async def fetch_data(session, endpoint):
@@ -24,7 +24,7 @@ async def fetch_data(session, endpoint):
         logging.error(f"Error fetching {endpoint}: {e}")
         return None
 
-async def fetch_data_batch(batch_size=50, delay=1):
+async def fetch_data_batch(batch_size=10, delay=1):
     """
     Asynchronously fetch a batch of data from the API and process it.
     """
@@ -88,7 +88,7 @@ async def fetch_data_batch(batch_size=50, delay=1):
 
 
 # Save data to a CSV file
-def save_data_to_csv(df, filename="fetched_data.csv"):
+def save_data_to_csv(df, filename="data.csv"):
     """
     Save the DataFrame to a CSV file in append mode.
     """
@@ -112,9 +112,9 @@ async def main(batch_size, delay, output_file):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", type=int, default=50, help="Number of API fetch calls per batch")
+    parser.add_argument("--batch_size", type=int, default=10, help="Number of API fetch calls per batch")
     parser.add_argument("--delay", type=float, default=1, help="Delay between API calls (seconds)")
-    parser.add_argument("--output_file", type=str, default="fetched_data.csv", help="Output CSV file")
+    parser.add_argument("--output_file", type=str, default="data.csv", help="Output CSV file")
     args = parser.parse_args()
 
     # Run the main function
