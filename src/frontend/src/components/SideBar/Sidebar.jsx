@@ -43,11 +43,12 @@ const Sidebar = () => {
       >
         {/* Close Button */}
         <button
-          className="close-button"
-          onClick={() => setIsSidebarOpen(false)}
-        >
-          <span className="material-icons">close</span>
-        </button>
+  className="sidebar-close-button"
+  onClick={() => setIsSidebarOpen(false)}
+>
+  <span className="material-icons">close</span>
+</button>
+
         <Link to="/EmergencyLandingPage">
         <h2 className="menu-title">
           <img src={ERlogo} alt="ERlogo" className="logo" />
