@@ -1,0 +1,120 @@
+/* BreathingExercisePage.css */
+
+/* Breathing Container */
+.breathing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #edf5ff; /* Light blue background */
+    color: #1b3a61; /* Dark blue text */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Disclaimer Popup */
+  .disclaimer-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: rgba(27, 58, 97, 0.9); /* Semi-transparent dark blue background */
+    color: #ffffff; /* White text */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+  }
+  
+  /* Disclaimer Text */
+  .disclaimer-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  /* Disclaimer Button */
+  .disclaimer-button {
+    padding: 10px 20px;
+    background-color: #1b3a61; /* Dark blue button color */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .disclaimer-button:hover {
+    background-color: #17456e; /* Slightly darker blue on hover */
+  }
+  
+  /* Progress Ring */
+  .progress-ring {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+  
+  /* SVG Ring */
+  .circle-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Start the circle at the top */
+  }
+  
+  /* Progress Background */
+  .progress-background {
+    fill: none;
+    stroke: rgba(27, 58, 97, 0.2); /* Light transparent dark blue stroke */
+    stroke-width: 10;
+  }
+  
+  /* Progress Circle */
+  .progress-circle {
+    fill: none;
+    stroke: #1b3a61; /* Dark blue progress stroke */
+    stroke-width: 10;
+    stroke-dasharray: 565; /* Circumference of the circle (2 * π * r) */
+    stroke-dashoffset: 565; /* Full circle hidden */
+    transition: stroke-dashoffset 0.05s linear;
+  }
+  
+  /* Breathing Circle */
+  .circle {
+    width: 150px;
+    height: 150px;
+    background-color: rgba(173, 216, 230, 0.3); /* Light blue semi-transparent */
+    border-radius: 50%; /* Make it circular */
+    position: absolute;
+    top: 12.5%;
+    left: 12%;
+    transform: translate(-50%, -50%);
+    transition: transform 4s ease-in-out;
+  }
+  
+  /* Breathing Phase */
+  .breath-phase {
+    margin-top: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1b3a61; /* Dark blue text */
+  }
+  
+  /* Instructions */
+  .instructions {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+    color: #17456e; /* Slightly lighter dark blue for instructions */
+  }
+  
