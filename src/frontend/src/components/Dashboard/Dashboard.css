@@ -1,0 +1,136 @@
+/* General Layout */
+.dashboard {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9fafb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center;
+    color: #343a40;
+    padding: 20px; /* Prevent overflow on mobile */
+    box-sizing: border-box;
+  }
+  
+  .dashboard-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #336699;
+  }
+  
+  /* Grid Layout */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  /* Card Styles */
+  .card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-icon {
+    font-size: 48px;
+    color: #336699;
+    margin-bottom: 10px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+  
+  .card-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #336699;
+  }
+  
+  .card-unit {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .card-status {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+
+  
+  .large-card {
+    grid-column: span 2;
+    width: 100%;
+    max-width: 800px; /* Adjust max width for a nice layout */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .large-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.01);
+  }
+  
+  .chart-container {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    display: flex; /* Enable Flexbox */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+  }
+  
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .large-card {
+      grid-column: span 1;
+    }
+  
+    .card {
+      padding: 15px;
+    }
+  
+    .card-title {
+      font-size: 16px;
+    }
+  
+    .card-value {
+      font-size: 28px;
+    }
+  
+    .card-icon {
+      font-size: 36px;
+    }
+  }
+  
