@@ -1,0 +1,58 @@
+.cell {
+    display: flex;
+    background-color: #c2e1f6; /* Default cell background */
+    min-width: 30px;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #7ec0ec; /* Text color for numbers */
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+/* Flagged cell */
+.cell.is-flag {
+    background-color: #a1d4f5;
+}
+
+/* Spacing between cells (except first child) */
+.cell:not(:first-child) {
+    margin-left: 5px;
+}
+
+/* Focus outline */
+.cell:focus {
+    outline: none;
+}
+
+/* Hidden cell background */
+.cell.hidden {
+    background-color: #a1d4f5;
+}
+
+/* Hover state for hidden cells */
+.cell.hidden:hover {
+    background-color: #b3def2;
+}
+
+/* Incorrectly flagged cells */
+.cell.is-flag:not(.is-mine):not(.hidden) {
+    background-color: #f7b3b3; /* Light red for incorrect flags */
+}
+
+/* Correctly flagged cells */
+.cell.is-flag.is-mine:not(.hidden) {
+    background-color: #4f8755; /* Green for correct flags */
+}
+
+/* Clicked on a mine */
+.cell.is-mine.is-clicked {
+    background-color: #7ec0ec; /* Light blue for clicked mine */
+}
+
+/* Empty revealed cells */
+.cell.is-empty:not(.hidden):not(.is-mine):not(.is-flagged) {
+    background-color: #eff7fc; /* Soft white for revealed empty cells */
+}

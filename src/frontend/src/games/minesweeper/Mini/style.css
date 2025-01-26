@@ -1,0 +1,151 @@
+.mini-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-color: #f4f9fc; /* Light hospital-themed background */
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff; /* White background for the game area */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 90%;
+    width: 600px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #7ec0ec;
+    margin-bottom: 20px;
+  }
+  
+  .control-buttons button {
+    background-color: #a1d4f5;
+    border: none;
+    padding: 10px 15px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .control-buttons button:hover {
+    background-color: #7ec0ec;
+    transform: scale(1.05); /* Add a subtle hover effect */
+  }
+  
+  
+  form {
+    display: flex;
+    justify-content: center; /* Center the form horizontally */
+    align-items: center; /* Align labels and inputs vertically */
+    gap: 15px; /* Add spacing between each label-input pair */
+    margin-top: 20px; /* Add spacing above the form */
+  }
+  
+  form label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 5px; /* Add space between label and input */
+    color: #7ec0ec; /* Light blue color to match the theme */
+  }
+  
+  form input {
+    width: 60px; /* Set input width */
+    padding: 5px; /* Add padding for better usability */
+    border: 1px solid #a1d4f5; /* Light border to match the theme */
+    border-radius: 4px; /* Rounder corners for a modern look */
+    font-size: 14px; /* Adjust font size for consistency */
+    text-align: center; /* Center-align the text in the input */
+    background-color: #f4f9fc; /* Light background color */
+    color: #333; /* Text color */
+  }
+  
+  form input:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #7ec0ec; /* Highlight border when focused */
+    box-shadow: 0 0 5px #7ec0ec; /* Add subtle glow effect */
+  }
+  
+  form input[type="number"]::-webkit-inner-spin-button,
+  form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Hide the spin buttons in number inputs */
+    margin: 0;
+  }
+  
+  .banner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: white;
+    font-size: 24px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeInOut 3s ease-in-out;
+  }
+  
+  /* Win-specific styles */
+  .banner.win {
+    background-color: #4caf50; /* Green for win */
+  }
+  
+  /* Lose-specific styles */
+  .banner.lose {
+    background-color: #ff9992; /* Red for lose */
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+    10% {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+    90% {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+  }
+  
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .game {
+      width: 100%; /* Adjust width for smaller screens */
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    form input {
+      width: 50px;
+    }
+  
+    .control-buttons {
+      gap: 10px; /* Reduce spacing on smaller screens */
+    }
+  }
+  

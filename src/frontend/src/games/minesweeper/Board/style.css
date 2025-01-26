@@ -1,0 +1,38 @@
+.board {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the board horizontally */
+    justify-content: center; /* Center the board vertically */
+    height: 100%; /* Make the board take up available space */
+    width: 100%; /* Ensure the board takes the full width */
+    padding: 20px; /* Add padding around the board */
+    box-sizing: border-box; /* Include padding in size calculation */
+  }
+  
+  .grid {
+    margin: 10px 0; /* Add space above and below the grid */
+    display: flex;
+    flex-direction: column; /* Stack rows vertically */
+    align-items: center; /* Center rows horizontally */
+  }
+  
+  .mines-count {
+    padding: 8px 15px; /* Increase padding for better visibility */
+    margin-bottom: 20px; /* Add space below the mines counter */
+    font-weight: 500; /* Slightly bolder font for emphasis */
+    color: #fff; /* White text for contrast */
+    border-radius: 8px; /* Rounder corners for a modern look */
+    background-color: #7ec0ec; /* Light blue hospital-themed color */
+    font-size: 16px; /* Adjust font size for better readability */
+    text-align: center; /* Center the text */
+  }
+  
+  .row {
+    display: flex; /* Align cells in a row */
+    justify-content: center; /* Center the cells in each row */
+  }
+  
+  .row:not(:last-child) {
+    margin-bottom: 5px; /* Add spacing between rows */
+  }
+  
