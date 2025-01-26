@@ -2,100 +2,118 @@
 body {
   margin: 0;
   font-family: 'Poppins', Arial, sans-serif;
-  background: linear-gradient(180deg, #a1d4f5, #e2f2fb);
+  background: #f9fafb; /* Sky-like background */
   color: #333;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  height: 100vh;
   overflow: hidden;
+  text-align: center;
+}
+
+/* Page Container */
+.ButtonsPage {
+  display: flex;
+  flex-direction: column; /* Stack title and grid vertically */
+  align-items: center; /* Center the content horizontally */
+  justify-content: center; /* Center the content vertically */
+  height: 100%; /* Fill the viewport */
+  width: 100%;
 }
 
 /* Page Title */
 .page-title {
   font-size: 2rem;
-  text-align: center;
-  margin: 20px 0;
-  color: #336699;
+  color: #336699; /* Matches the gradient theme */
   font-weight: bold;
+  margin-bottom: 30px; /* Space between title and grid */
 }
 
-/* Buttons Flexbox Container */
+/* Buttons Grid Container */
 .ButtonsGrid {
-  display: flex;
-  flex-wrap: wrap; /* Allows buttons to wrap to the next row */
-  justify-content: center; /* Center-aligns buttons horizontally */
-  align-content: flex-start; /* Ensures rows are tightly packed */
-  gap: 15px; /* Controls spacing between buttons */
-  padding: 20px;
-  max-width: 100%;
-  height: calc(100vh - 80px); /* Ensures the grid fits within the screen */
-  overflow-y: auto; /* Enables scrolling if needed */
-  box-sizing: border-box; /* Prevents extra padding issues */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns */
+  gap: 20px; /* Space between buttons */
+  justify-content: center; /* Center the grid content horizontally */
+  align-items: center; /* Center each row vertically */
+  width: auto; /* Fit the grid content size */
+  max-width: 900px; /* Optional: Limit grid width */
 }
 
-/* Button Wrapper */
-.button-wrapper {
-  flex: 0 0 calc(25% - 15px); /* 4 buttons per row on larger screens */
-  max-width: 120px;
+/* SVG Cloud Button */
+.cloud-button {
+  position: relative;
+  width: 120px;
   height: 120px;
-  background-color: #88c8ed;
-  border-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.button-wrapper:hover {
-  transform: scale(1.1);
-  background-color: #65b1e4;
+.cloud-button svg {
+  height: 100px;
+  width: 100px;
 }
 
-.button-wrapper.playing {
-  background-color: #4d9cce;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+.cloud-button path {
+  fill: #eff9ff;
+  stroke: lightskyblue;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
-/* Button Text */
-.button-text {
-  font-size: 1rem;
+.cloud-button path:hover {
+  fill: aliceblue;
+  stroke: lightskyblue;
+}
+
+.cloud-button path.active {
+  fill: #336699; /* Darker blue for active state */
+  stroke: lightskyblue;
+}
+
+/* Cloud Button Text */
+.cloud-text {
+  margin-top: 10px;
+  font-size: 0.9rem;
   font-weight: bold;
-  color: white;
+  color: #336699;
   text-align: center;
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .button-wrapper {
-    flex: 0 0 calc(33.33% - 15px); /* 3 buttons per row on tablets */
-    max-width: 100px;
-    height: 100px;
-  }
-
-  .button-text {
-    font-size: 0.9rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .button-wrapper {
-    flex: 0 0 calc(50% - 15px); /* 2 buttons per row on smaller screens */
-    max-width: 90px;
-    height: 90px;
+  .ButtonsGrid {
+    grid-template-columns: repeat(3, 1fr); /* 3 buttons per row */
+    gap: 15px;
   }
 
-  .button-text {
+  .cloud-button svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  .cloud-text {
     font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
-  .button-wrapper {
-    flex: 0 0 calc(100% - 15px); /* 1 button per row on phones */
-    max-width: 80px;
-    height: 80px;
+  .ButtonsGrid {
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    gap: 10px;
   }
 
-  .button-text {
+  .cloud-button svg {
+    height: 70px;
+    width: 70px;
+  }
+
+  .cloud-text {
     font-size: 0.7rem;
   }
 

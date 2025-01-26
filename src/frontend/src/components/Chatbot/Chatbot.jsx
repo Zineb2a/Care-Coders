@@ -71,9 +71,19 @@ const Chatbot = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        height: "100vh",
+        width: "100vw",
+        backgroundColor: "#f8fafe",
+      }}
+    >
       {/* Sidebar */}
-      <Sidebar />
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <Sidebar />
+      </Box>
 
       {/* Main Chatbot Content */}
       <Box
@@ -83,8 +93,7 @@ const Chatbot = () => {
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "#f8fafe",
-          padding: { xs: "8px", md: "16px" },
+          padding: { xs: "16px", md: "24px" },
         }}
       >
         {/* Header */}
@@ -94,7 +103,8 @@ const Chatbot = () => {
             textAlign: "center",
             fontWeight: "bold",
             color: "#70B1CB",
-            marginBottom: "8px",
+            marginBottom: "16px",
+            fontSize: { xs: "1.5rem", md: "2rem" },
           }}
         >
           Dr. Patience
@@ -106,12 +116,13 @@ const Chatbot = () => {
           sx={{
             flex: 1,
             width: "100%",
-            maxWidth: "600px",
+            maxWidth: "800px",
             overflowY: "auto",
             backgroundColor: "#ffffff",
             borderRadius: "8px",
             padding: "16px",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            height: { xs: "65vh", md: "70vh" },
           }}
         >
           {messages.map((msg, idx) => (
@@ -119,7 +130,8 @@ const Chatbot = () => {
               key={idx}
               sx={{
                 display: "flex",
-                justifyContent: msg.role === "assistant" ? "flex-start" : "flex-end",
+                justifyContent:
+                  msg.role === "assistant" ? "flex-start" : "flex-end",
                 marginBottom: "12px",
               }}
             >
@@ -129,7 +141,7 @@ const Chatbot = () => {
                   color: msg.role === "assistant" ? "#333333" : "#ffffff",
                   padding: "12px 16px",
                   borderRadius: "12px",
-                  maxWidth: "70%",
+                  maxWidth: "80%",
                   fontSize: "0.95rem",
                   wordWrap: "break-word",
                 }}
@@ -147,7 +159,7 @@ const Chatbot = () => {
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            maxWidth: "600px",
+            maxWidth: "800px",
             marginTop: "16px",
           }}
         >
@@ -162,6 +174,7 @@ const Chatbot = () => {
             sx={{
               backgroundColor: "#ffffff",
               borderRadius: "8px",
+              fontSize: { xs: "0.85rem", md: "1rem" },
             }}
           />
           <IconButton
