@@ -17,10 +17,17 @@ function FeedbackForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (rating === 0) {
+      alert('Please select a star rating before submitting.');
+      return;
+    }
     console.log({ rating, comment });
     setSubmitted(true);
-  };
 
+    setTimeout(() => {
+      closePopup();
+    }, 3000);
+  };  
   const closePopup = () => {
     setSubmitted(false);
     setRating(0);
@@ -68,7 +75,6 @@ function FeedbackForm() {
         <div className="popup">
           <div className="popup-content">
             <h3>Thank you for your feedback!</h3>
-            <button className="close-button" onClick={closePopup}>Close</button>
           </div>
         </div>
       )}
