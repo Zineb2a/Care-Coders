@@ -1,0 +1,145 @@
+.mini-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f9fc;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 90%;
+    width: 600px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #7ec0ec;
+    margin-bottom: 20px;
+}
+
+.control-buttons button {
+    background-color: #a1d4f5;
+    border: none;
+    padding: 10px 15px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.control-buttons button:hover {
+    background-color: #7ec0ec;
+    transform: scale(1.05);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+form label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 5px;
+    color: #7ec0ec;
+}
+
+form input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #a1d4f5;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #f4f9fc;
+    color: #333;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #7ec0ec;
+    box-shadow: 0 0 5px #7ec0ec;
+}
+
+form input[type="number"]::-webkit-inner-spin-button,
+form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.banner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 24px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+.banner.win {
+    background-color: #4caf50;
+}
+
+.banner.lose {
+    background-color: #ff9992;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+}
+
+@media (max-width: 768px) {
+    .game {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    form input {
+        width: 50px;
+    }
+
+    .control-buttons {
+        gap: 10px;
+    }
+}

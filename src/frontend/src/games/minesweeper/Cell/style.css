@@ -1,0 +1,49 @@
+.cell {
+    display: flex;
+    background-color: #c2e1f6;
+    min-width: 30px;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #7ec0ec;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.cell.is-flag {
+    background-color: #a1d4f5;
+}
+
+.cell:not(:first-child) {
+    margin-left: 5px;
+}
+
+.cell:focus {
+    outline: none;
+}
+
+.cell.hidden {
+    background-color: #a1d4f5;
+}
+
+.cell.hidden:hover {
+    background-color: #b3def2;
+}
+
+.cell.is-flag:not(.is-mine):not(.hidden) {
+    background-color: #f7b3b3;
+}
+
+.cell.is-flag.is-mine:not(.hidden) {
+    background-color: #4f8755;
+}
+
+.cell.is-mine.is-clicked {
+    background-color: #7ec0ec;
+}
+
+.cell.is-empty:not(.hidden):not(.is-mine):not(.is-flagged) {
+    background-color: #eff7fc;
+}
