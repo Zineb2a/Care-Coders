@@ -1,113 +1,79 @@
 import React, { useState } from 'react';
+import './Feedback.css';
+import Sidebar from '../SideBar/SideBar';
 
 function FeedbackForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const handleStarClick = (star) => {
+    if (rating === star) {
+      setRating(0); 
+    } else {
+      setRating(star); 
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, email, message });
+    console.log({ rating, comment });
     setSubmitted(true);
   };
 
-  if (submitted) {
-    return (
-      <div style={styles.container}>
-        <h2>Thank you for your feedback!</h2>
-      </div>
-    );
-  }
+  const closePopup = () => {
+    setSubmitted(false);
+    setRating(0);
+    setComment('');
+  };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.title}>Feedback Form</h2>
-        
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={styles.input}
-            required
-          />
+    <div className="container">
+      <Sidebar />
+      <form onSubmit={handleSubmit} className="form">
+        <h2 className="title">Feedback Form</h2>
+
+        <div className="inputGroup">
+          <label className="label">Rating</label>
+          <br/>
+          <br/>
+          <div className="stars">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <img
+                key={star}
+                src={rating >= star ? './src/assets/filled-star.png' : './src/assets/star.png'} 
+                alt={`star-${star}`}
+                className={`star ${rating >= star ? 'filled' : ''}`}
+                onClick={() => handleStarClick(star)}
+              />
+            ))}
+          </div>
         </div>
 
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            required
-          />
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Message</label>
+        <div className="inputGroup">
           <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            style={styles.textarea}
-            required
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="textarea"
+            placeholder="Leave a comment..."
           />
         </div>
 
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="button">
           Submit Feedback
         </button>
       </form>
+
+      {submitted && (
+        <div className="popup">
+          <div className="popup-content">
+            <h3>Thank you for your feedback!</h3>
+            <button className="close-button" onClick={closePopup}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-const styles = {
-  container: {
-    maxWidth: '500px',
-    margin: '0 auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
-  title: {
-    textAlign: 'center',
-    color: '#333',
-  },
-  inputGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  label: {
-    marginBottom: '5px',
-    color: '#555',
-  },
-  input: {
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-  },
-  textarea: {
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    minHeight: '100px',
-  },
-  button: {
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  }
-};
 
 export default FeedbackForm;
