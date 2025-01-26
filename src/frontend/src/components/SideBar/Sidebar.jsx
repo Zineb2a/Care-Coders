@@ -1,14 +1,18 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import ERlogo from "../../assets/ERlogotrans.png";
 
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
 
   // Close sidebar when clicking outside of it
   const handleClickOutside = (event) => {
-    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+    if (
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target)
+    ) {
       setIsSidebarOpen(false);
     }
   };
@@ -22,6 +26,16 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   return (
     <>
+      {/* Burger Menu Button */}
+      {!isSidebarOpen && (
+        <button
+          className="burger-menu"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <span className="material-icons">menu</span>
+        </button>
+      )}
+
       {/* Sidebar */}
       <div
         className={`sidebar-container ${isSidebarOpen ? "open" : "closed"}`}
@@ -29,15 +43,16 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       >
         {/* Close Button */}
         <button
-          className="sidebar-close-button"
-          onClick={() => setIsSidebarOpen(false)}
-        >
-          <span className="material-icons">close</span>
-        </button>
+  className="sidebar-close-button"
+  onClick={() => setIsSidebarOpen(false)}
+>
+  <span className="material-icons">close</span>
+</button>
+
         <Link to="/EmergencyLandingPage">
-          <h2 className="menu-title">
-            <img src={ERlogo} alt="ERlogo" className="logo" />
-          </h2>
+        <h2 className="menu-title">
+          <img src={ERlogo} alt="ERlogo" className="logo" />
+        </h2>
         </Link>
         <nav className="menu-links">
           <Link to="/dashboard" className="menu-link">
