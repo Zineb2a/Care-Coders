@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./EmergencyLandingPage.css";
-import Sidebar from "../components/SideBar/SideBar.jsx";
-import ERlogo from "./ERlogotrans.png";
-import hourglass from "./hourglass.gif";
+import Sidebar from "../SideBar/Sidebar.jsx";
+import ERlogo from "../../assets/ERlogotrans.png";
+import hourglass from "../../assets/hourglass.gif";
 
 const EmergencyLandingPage = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);

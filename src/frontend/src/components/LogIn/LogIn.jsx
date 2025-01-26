@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SignUpPage from '../SignUp/SignUp';
 import './LogIn.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -12,6 +14,10 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault(); 
     console.log('Email:', email, 'Password:', password);
+  };
+  
+  const handleLanding = () => {
+    navigate('/landing');
   };
 
   const goToSignUp = () => {
@@ -44,7 +50,7 @@ const LoginPage = () => {
               onChange={handlePasswordChange} 
               required
             />
-            <button type="submit" className="login-button">Login</button>
+            <button type="submit" className="login-button" onClick={handleLanding}>Login</button>
           </form>
           
           <a href="/signup" className="forgot-password" onClick={goToSignUp}>
