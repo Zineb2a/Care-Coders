@@ -58,9 +58,6 @@ const LogIn = () => {
               onChange={handlePatientIdChange}
               required
             />
-            <button type="submit" className="login-button">
-              Login
-            </button>
           </form>
           {error && <p className="error-message">{error}</p>}
         </div>

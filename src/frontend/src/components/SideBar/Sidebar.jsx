@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import ERlogo from "../../assets/ERlogotrans.png";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+  const navigate = useNavigate();
 
   // Close sidebar when clicking outside of it
   const handleClickOutside = (event) => {
-    if (
-      sidebarRef.current &&
-      !sidebarRef.current.contains(event.target)
-    ) {
+    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setIsSidebarOpen(false);
     }
   };
@@ -23,6 +21,12 @@ const Sidebar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.clear(); // Clear all items from local storage
+    navigate("/"); // Redirect to the login page
+  };
 
   return (
     <>
@@ -43,16 +47,16 @@ const Sidebar = () => {
       >
         {/* Close Button */}
         <button
-  className="sidebar-close-button"
-  onClick={() => setIsSidebarOpen(false)}
->
-  <span className="material-icons">close</span>
-</button>
+          className="sidebar-close-button"
+          onClick={() => setIsSidebarOpen(false)}
+        >
+          <span className="material-icons">close</span>
+        </button>
 
         <Link to="/EmergencyLandingPage">
-        <h2 className="menu-title">
-          <img src={ERlogo} alt="ERlogo" className="logo" />
-        </h2>
+          <h2 className="menu-title">
+            <img src={ERlogo} alt="ERlogo" className="logo" />
+          </h2>
         </Link>
         <nav className="menu-links">
           <Link to="/dashboard" className="menu-link">
@@ -79,6 +83,14 @@ const Sidebar = () => {
             <span className="material-icons menu-icon">chat</span>
             Chatbot Assistance
           </Link>
+          {/* Logout Button */}
+          <button
+            className="menu-link logout-button"
+            onClick={handleLogout}
+          >
+            <span className="material-icons menu-icon">logout</span>
+            Logout
+          </button>
         </nav>
       </div>
     </>
