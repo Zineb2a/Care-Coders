@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Cell from "../Cell/Cell"; // Correct path based on your files
+import Cell from "../Cell/Cell"; 
 
 
 import "./style.css";

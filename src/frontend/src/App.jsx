@@ -4,10 +4,13 @@ import { AppProvider } from "./context/AppContext";
 import LogIn from "./components/LogIn/LogIn";
 import Dashboard from "./components/Dashboard/dashboard";
 import EmergencyLandingPage from "./components/Landing/EmergencyLandingPage";
-import Mini from "./games/minesweeper/Mini/Mini";
+import Games from './games/games.jsx';
+import Tetris from './games/MiniTetris/Tetris.jsx';
+import Mini from './games/minesweeper/Mini/Mini.jsx';
 import Chatbot from "./components/Chatbot/Chatbot";
-import Sidebar from "./components/SideBar/SideBar"; 
-import Buttons from "./components/Buttons/Buttons"; 
+import Sidebar from "../src/components/SideBar/SideBar.jsx";
+import FeedbackForm from "./components/Feedback/Feedback.jsx";
+ 
 
 // Layout Component for Pages with Sidebar
 const Layout = ({ children }) => (
@@ -65,6 +68,11 @@ const App = () => {
               </Layout>
             }
           />
+          <Route path="/game" element={<Games />} />
+          <Route path="/tetris" element={<Tetris />} />
+          <Route path="/minesweeper" element={<Mini />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
+
         </Routes>
       </BrowserRouter>
     </AppProvider>
