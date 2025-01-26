@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LogIn from './components/LogIn/LogIn';
 import SignUpPage from './components/SignUp/SignUp';
+import Chatbot from './components/Chatbot/Chatbot';
+Chatbot
+
 import './App.css';
 
 function App() {
@@ -9,9 +12,8 @@ function App() {
     <BrowserRouter>
       <div className='app-container'>
         <Routes>
-          <Route path="/" element={<LogIn />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LogIn />} />
+          <Route path="/" element={<Chatbot />} />
+         
         </Routes>
       </div>
     </BrowserRouter>
