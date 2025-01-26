@@ -3,54 +3,65 @@ import { FaUserMd, FaClock, FaSignal } from "react-icons/fa";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Cell } from "recharts";
 import "./Dashboard.css";
 
-const Dashboard = () => {
-  const mockData = {
-    avg_wait_time: { average: 54, time_elapsed: { hours: 0, minutes: 48 } },
-    currentStatus: "Critical",
-    triage_category: [
-      { name: "Blue", description: "Requires Resuscitation", total: 25, color: "#A3D5FF" }, // Pastel Blue
-      { name: "Green", description: "Less-Urgent Care", total: 40, color: "#A8E6CF" }, // Pastel Green
-      { name: "Yellow", description: "Urgent Care", total: 15, color: "#FFE699" }, // Pastel Yellow
-      { name: "Red", description: "Emergent Care", total: 5, color: "#FFB3B3" }, // Pastel Red
-      { name: "White", description: "Not-urgent", total: 10, color: "#E6E6E6" }, // Light Gray (unchanged)
-    ],
-  };
+const Dashboard = ({ generalStats, patientData }) => {
+  if (!generalStats || !patientData) {
+    return <p className="loading-message">Loading data...</p>; // Display this if the required data is not passed
+  }
 
-  const statusColorMap = {
-    Critical: "#dc3545", // Red for Critical
-    Stable: "#28a745", // Green for Stable
-    Moderate: "#ffc107", // Yellow for Moderate
-  };
+  // Extract data from props
+  const { averageWaitTimes, categoryBreakdown } = generalStats;
+  const { time_elapsed, status, triage_category, queue_position } = patientData;
 
-  const statusColor = statusColorMap[mockData.currentStatus] || "#6c757d"; // Default gray
+  // Determine the patient's average wait time
+  const avgWaitTime = averageWaitTimes[triage_category];
+
+  // Determine status color based on average wait time
+  const statusColor = avgWaitTime > 120
+    ? "#dc3545" // Red for Critical
+    : avgWaitTime > 60
+    ? "#ffc107" // Yellow for Moderate
+    : "#28a745"; // Green for Stable
+
+  // Prepare data for the bar chart
+  const triageCategoryData = Object.entries(categoryBreakdown).map(([key, value]) => ({
+    name: `Category ${key}`,
+    total: value,
+    color: ["#A3D5FF", "#FFB3B3", "#FFE699", "#A8E6CF", "#E6E6E6"][key - 1], // Assign colors dynamically
+  }));
 
   return (
     <div className="dashboard">
       <h1 className="dashboard-title">Emergency Room Dashboard</h1>
       <div className="grid-container">
-        {/* Average ER Waiting Time */}
+        {/* Average Wait Time for Patient's Triage */}
         <div className="card">
           <FaUserMd className="card-icon" />
-          <h3 className="card-title">Average ER Waiting Time</h3>
-          <p className="card-value">{mockData.avg_wait_time.average} Min</p>
+          <h3 className="card-title">Your Average Wait Time</h3>
+          <p className="card-value">{avgWaitTime} Min</p>
         </div>
 
-        {/* Current ER Waiting Time */}
+        {/* Patient's Time Elapsed */}
         <div className="card">
           <FaClock className="card-icon" />
-          <h3 className="card-title">Waiting Time Elapsed</h3>
-          <p className="card-value">
-            {mockData.avg_wait_time.time_elapsed.hours}:{mockData.avg_wait_time.time_elapsed.minutes}{" "}
-            <span className="card-unit">hr:min</span>
+          <h3 className="card-title">Time Elapsed</h3>
+          <p className="card-value">{time_elapsed} Min</p>
+        </div>
+
+        {/* Patient's Current Phase */}
+        <div className="card">
+          <FaSignal className="card-icon" />
+          <h3 className="card-title">Your Current Phase</h3>
+          <p className="card-status" style={{ color: statusColor }}>
+            {status.current_phase}
           </p>
         </div>
 
-        {/* Current Status */}
+        {/* Patient's Queue Position */}
         <div className="card">
           <FaSignal className="card-icon" />
-          <h3 className="card-title">Triage Status</h3>
-          <p className="card-status" style={{ color: statusColor }}>
-            {mockData.currentStatus}
+          <h3 className="card-title">Queue Position</h3>
+          <p className="card-value">
+            Global: {queue_position.global}, Category: {queue_position.category}
           </p>
         </div>
 
@@ -59,14 +70,14 @@ const Dashboard = () => {
           <h3 className="card-title">Triage Category Overview</h3>
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={mockData.triage_category}>
+              <BarChart data={triageCategoryData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey="total" barSize={50}>
-                  {mockData.triage_category.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} /> // Dynamically assign color
+                  {triageCategoryData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Bar>
               </BarChart>
